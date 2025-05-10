@@ -10,3 +10,4 @@ cd php-postgresql-nginx
 ```bash
 docker-compose up -d
 ```
+# laravel12-React.stupro
