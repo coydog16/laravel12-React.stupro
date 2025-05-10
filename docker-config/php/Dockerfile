@@ -1,4 +1,4 @@
-FROM php:8.1-fpm
+FROM php:8.3-fpm
 WORKDIR /var/www
 ADD . /var/www
 
@@ -24,7 +24,6 @@ RUN apt-get update \
   curl \
   gnupg \
   openssl \
-  nodejs \
   && docker-php-ext-install pdo_pgsql pgsql \
   && docker-php-ext-configure gd --with-freetype --with-jpeg \
   && docker-php-ext-install -j$(nproc) gd
@@ -33,9 +32,10 @@ RUN apt-get update \
 COPY php.ini /usr/local/etc/php/
 
 # install stable node and latest npm
-RUN curl -sL https://deb.nodesource.com/setup_18.x | bash
 RUN apt-get update \
-  && apt-get install -y nodejs 
+    && apt-get install -y curl \
+    && curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
+    && apt-get install -y nodejs 
 # install node packages
 RUN npm install -g n
 RUN n stable
